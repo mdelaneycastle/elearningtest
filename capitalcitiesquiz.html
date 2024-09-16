@@ -1,0 +1,134 @@
+<!-- capitalcitiesquiz.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Capital Cities Quiz</title>
+  <style>
+    /* Basic styling for the form */
+    form { max-width: 600px; margin: auto; }
+    label { display: block; margin-top: 10px; }
+    .question { margin-bottom: 20px; }
+    .result { font-size: 20px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Capital Cities Quiz</h2>
+  <form id="quiz-form">
+    <!-- United States Question -->
+    <div class="question">
+      <p>1. What is the capital of the United States?</p>
+      <label><input type="checkbox" name="q1" value="Washington, D.C."> Washington, D.C.</label>
+      <label><input type="checkbox" name="q1" value="New York"> New York</label>
+      <label><input type="checkbox" name="q1" value="Los Angeles"> Los Angeles</label>
+    </div>
+
+    <!-- Canada Question -->
+    <div class="question">
+      <p>2. What is the capital of Canada?</p>
+      <label><input type="checkbox" name="q2" value="Toronto"> Toronto</label>
+      <label><input type="checkbox" name="q2" value="Vancouver"> Vancouver</label>
+      <label><input type="checkbox" name="q2" value="Ottawa"> Ottawa</label>
+    </div>
+
+    <!-- United Kingdom Question -->
+    <div class="question">
+      <p>3. What is the capital of the United Kingdom?</p>
+      <label><input type="checkbox" name="q3" value="Edinburgh"> Edinburgh</label>
+      <label><input type="checkbox" name="q3" value="Birmingham"> Birmingham</label>
+      <label><input type="checkbox" name="q3" value="London"> London</label>
+    </div>
+
+    <!-- Australia Question -->
+    <div class="question">
+      <p>4. What is the capital of Australia?</p>
+      <label><input type="checkbox" name="q4" value="Sydney"> Sydney</label>
+      <label><input type="checkbox" name="q4" value="Canberra"> Canberra</label>
+      <label><input type="checkbox" name="q4" value="Melbourne"> Melbourne</label>
+    </div>
+
+    <!-- France Question -->
+    <div class="question">
+      <p>5. What is the capital of France?</p>
+      <label><input type="checkbox" name="q5" value="Paris"> Paris</label>
+      <label><input type="checkbox" name="q5" value="Lyon"> Lyon</label>
+      <label><input type="checkbox" name="q5" value="Marseille"> Marseille</label>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="result" class="result"></div>
+
+  <!-- Firebase SDKs and Initialization -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+    import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+
+    // Your web app's Firebase configuration
+        const firebaseConfig = {
+      apiKey: "AIzaSyBDnOkddPZP8nBtSKLUeAvYK1ksMAl2B84",
+      authDomain: "e-learning-site-5ddbf.firebaseapp.com",
+      projectId: "e-learning-site-5ddbf",
+      storageBucket: "e-learning-site-5ddbf.appspot.com",
+      messagingSenderId: "766677258218",
+      appId: "1:766677258218:web:957b611b720f5be14e2c93",
+      measurementId: "G-4RYDZ0B4BP"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const analytics = getAnalytics(app);
+
+    // Correct Answers
+    const correctAnswers = {
+      q1: 'Washington, D.C.',
+      q2: 'Ottawa',
+      q3: 'London',
+      q4: 'Canberra',
+      q5: 'Paris'
+    };
+
+    // Form submission handler
+    document.getElementById('quiz-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      let score = 0;
+
+      // Calculate score
+      for (let i = 1; i <= 5; i++) {
+        const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selectedOption && selectedOption.value === correctAnswers[`q${i}`]) {
+          score++;
+        }
+      }
+
+      // Display result
+      document.getElementById('result').textContent = `Your score is: ${score} out of 5`;
+
+      // Update score in Firestore
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          try {
+            // Update the user's quiz scores in Firestore
+            const userDocRef = doc(db, 'users', user.uid);
+            await updateDoc(userDocRef, {
+              capitalCitiesQuizScore: score
+            });
+          } catch (error) {
+            console.error('Error updating quiz score:', error);
+          }
+        }
+      });
+    });
+  </script>
+
+  <!-- Link to go back to welcome page -->
+  <a href="welcome.html">Go back to Welcome Page</a>
+</body>
+</html>
