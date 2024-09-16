@@ -41,12 +41,16 @@
       if (user) {
         // User is signed in
         try {
+          // Get a reference to the user's document in Firestore
           const docRef = doc(db, 'users', user.uid);
+          // Fetch the document
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
+            // Extract user data
             const userData = docSnap.data();
             const firstName = userData.firstName || 'there';
+            // Display the greeting
             document.getElementById('greeting').textContent = 'Hey ' + firstName + '!';
           } else {
             console.error('No user data found!');
