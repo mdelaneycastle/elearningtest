@@ -1,0 +1,62 @@
+<!-- welcome.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <style>
+    /* Center the greeting */
+    #greeting { text-align: center; margin-top: 50px; font-size: 24px; }
+  </style>
+</head>
+<body>
+  <div id="greeting"></div>
+
+  <!-- Firebase SDKs and Initialization -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBDnOkddPZP8nBtSKLUeAvYK1ksMAl2B84",
+      authDomain: "e-learning-site-5ddbf.firebaseapp.com",
+      projectId: "e-learning-site-5ddbf",
+      storageBucket: "e-learning-site-5ddbf.appspot.com",
+      messagingSenderId: "766677258218",
+      appId: "1:766677258218:web:957b611b720f5be14e2c93",
+      measurementId: "G-4RYDZ0B4BP"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Check if user is logged in
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // Fetch user's first name from Firestore
+        try {
+          const docRef = doc(db, 'users', user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const firstName = docSnap.data().firstName;
+            document.getElementById('greeting').textContent = 'Hey ' + firstName + '!';
+          } else {
+            document.getElementById('greeting').textContent = 'Hey there!';
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      } else {
+        // No user is signed in, redirect to login page
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
+</html>
