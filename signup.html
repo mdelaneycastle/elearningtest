@@ -95,7 +95,7 @@
 
         // Send verification email with redirection settings
         await sendEmailVerification(user, actionCodeSettings);
-        alert('Verification email sent. Please check your inbox.');
+        alert('Verification email sent. If you cant see the email, check your Junk Mail');
 
         // Save additional user data to Firestore
         await setDoc(doc(db, 'users', user.uid), {
