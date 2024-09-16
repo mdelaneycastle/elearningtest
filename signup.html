@@ -43,7 +43,7 @@
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
 
     // Your web app's Firebase configuration
-    const firebaseConfig = {
+        const firebaseConfig = {
       apiKey: "AIzaSyBDnOkddPZP8nBtSKLUeAvYK1ksMAl2B84",
       authDomain: "e-learning-site-5ddbf.firebaseapp.com",
       projectId: "e-learning-site-5ddbf",
@@ -110,6 +110,7 @@
         window.location.href = 'login.html';
 
       } catch (error) {
+        console.error('Error:', error);
         errorMessage.textContent = 'Error: ' + error.message;
       }
     });
