@@ -42,7 +42,6 @@
     import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
 
-
     // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBDnOkddPZP8nBtSKLUeAvYK1ksMAl2B84",
@@ -88,8 +87,14 @@
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Send verification email
-        await sendEmailVerification(user);
+        // Define the URL to redirect to after email verification
+        const actionCodeSettings = {
+          url: 'https://yourdomain.com/login.html', // Replace with your actual login page URL
+          handleCodeInApp: false
+        };
+
+        // Send verification email with redirection settings
+        await sendEmailVerification(user, actionCodeSettings);
         alert('Verification email sent. Please check your inbox.');
 
         // Save additional user data to Firestore
