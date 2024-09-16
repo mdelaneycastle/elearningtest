@@ -7,11 +7,24 @@
   <style>
     #greeting { text-align: center; margin-top: 50px; font-size: 24px; }
     #quiz-score { text-align: center; margin-top: 20px; font-size: 20px; }
+    #logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
+   <button id="logout-btn">Log Out</button>
   <div id="greeting">Loading...</div>
   <div id="quiz-score"></div>
+  
 
   <!-- Firebase SDKs and Initialization -->
   <script type="module">
@@ -68,6 +81,15 @@
       } else {
         // No user is signed in, redirect to login page
         window.location.href = 'login.html';
+      }
+      // Log Out Functionality
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      try {
+        await signOut(auth);
+        // Redirect to login page after logging out
+        window.location.href = 'login.html';
+      } catch (error) {
+        console.error('Error signing out:', error);
       }
     });
   </script>
