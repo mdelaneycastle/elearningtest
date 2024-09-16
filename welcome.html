@@ -21,16 +21,17 @@
   </style>
 </head>
 <body>
-   <button id="logout-btn">Log Out</button>
+  <!-- Log Out Button -->
+  <button id="logout-btn">Log Out</button>
+
   <div id="greeting">Loading...</div>
   <div id="quiz-score"></div>
-  
 
   <!-- Firebase SDKs and Initialization -->
   <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
 
@@ -78,18 +79,20 @@
           console.error('Error fetching user data:', error);
           document.getElementById('greeting').textContent = 'Hey there!';
         }
+
+        // Set up the log out button event listener
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+          try {
+            await signOut(auth);
+            // Redirect to login page after logging out
+            window.location.href = 'login.html';
+          } catch (error) {
+            console.error('Error signing out:', error);
+          }
+        });
       } else {
         // No user is signed in, redirect to login page
         window.location.href = 'login.html';
-      }
-      // Log Out Functionality
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-      try {
-        await signOut(auth);
-        // Redirect to login page after logging out
-        window.location.href = 'login.html';
-      } catch (error) {
-        console.error('Error signing out:', error);
       }
     });
   </script>
