@@ -6,10 +6,12 @@
   <title>Welcome</title>
   <style>
     #greeting { text-align: center; margin-top: 50px; font-size: 24px; }
+    #quiz-score { text-align: center; margin-top: 20px; font-size: 20px; }
   </style>
 </head>
 <body>
   <div id="greeting">Loading...</div>
+  <div id="quiz-score"></div>
 
   <!-- Firebase SDKs and Initialization -->
   <script type="module">
@@ -50,8 +52,11 @@
             // Extract user data
             const userData = docSnap.data();
             const firstName = userData.firstName || 'there';
-            // Display the greeting
+            const quizScore = userData.capitalCitiesQuizScore !== undefined ? userData.capitalCitiesQuizScore : 'Not taken yet';
+
+            // Display the greeting and quiz score
             document.getElementById('greeting').textContent = 'Hey ' + firstName + '!';
+            document.getElementById('quiz-score').textContent = 'Your latest quiz score: ' + quizScore + ' out of 5';
           } else {
             console.error('No user data found!');
             document.getElementById('greeting').textContent = 'Hey there!';
