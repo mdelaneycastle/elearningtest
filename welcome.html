@@ -5,12 +5,11 @@
   <meta charset="UTF-8">
   <title>Welcome</title>
   <style>
-    /* Center the greeting */
     #greeting { text-align: center; margin-top: 50px; font-size: 24px; }
   </style>
 </head>
 <body>
-  <div id="greeting"></div>
+  <div id="greeting">Loading...</div>
 
   <!-- Firebase SDKs and Initialization -->
   <script type="module">
@@ -20,9 +19,8 @@
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
 
-
     // Your web app's Firebase configuration
-    const firebaseConfig = {
+        const firebaseConfig = {
       apiKey: "AIzaSyBDnOkddPZP8nBtSKLUeAvYK1ksMAl2B84",
       authDomain: "e-learning-site-5ddbf.firebaseapp.com",
       projectId: "e-learning-site-5ddbf",
@@ -38,23 +36,25 @@
     const db = getFirestore(app);
     const analytics = getAnalytics(app);
 
-
     // Check if user is logged in
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Fetch user's first name from Firestore
+        // User is signed in
         try {
           const docRef = doc(db, 'users', user.uid);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            const firstName = docSnap.data().firstName;
+            const userData = docSnap.data();
+            const firstName = userData.firstName || 'there';
             document.getElementById('greeting').textContent = 'Hey ' + firstName + '!';
           } else {
+            console.error('No user data found!');
             document.getElementById('greeting').textContent = 'Hey there!';
           }
         } catch (error) {
           console.error('Error fetching user data:', error);
+          document.getElementById('greeting').textContent = 'Hey there!';
         }
       } else {
         // No user is signed in, redirect to login page
