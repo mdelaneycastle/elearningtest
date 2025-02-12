@@ -6,7 +6,7 @@ layout: null
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>.Static Pie Chart from Data File</title>
+  <title>Static Pie Chart from Data File</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -20,7 +20,8 @@ layout: null
       margin: auto;
     }
     .pie-chart {
-      transform: rotate(-90deg);
+      width: 200px;
+      height: 200px;
     }
     .percentage-text {
       font-size: 20px;
@@ -28,7 +29,7 @@ layout: null
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) rotate(90deg);
+      transform: translate(-50%, -50%);
     }
   </style>
 </head>
@@ -37,10 +38,11 @@ layout: null
   <div class="chart-container">
     <svg class="pie-chart" viewBox="0 0 32 32">
       <circle r="16" cx="16" cy="16" fill="#ddd"></circle>
-      <circle r="16" cx="16" cy="16" fill="none" stroke="teal" stroke-width="32"
+      <circle r="16" cx="16" cy="16" fill="none" stroke="teal" stroke-width="4"
         stroke-dasharray="{{ site.data.number.value }} 100"
-        stroke-linecap="round"></circle>
-      <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" class="percentage-text">
+        stroke-linecap="round"
+        transform="rotate(-90 16 16)"></circle>
+      <text x="16" y="16" text-anchor="middle" dominant-baseline="central" class="percentage-text">
         {{ site.data.number.value }}%
       </text>
     </svg>
