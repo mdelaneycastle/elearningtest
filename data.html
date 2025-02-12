@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Data Fetcher</title>
+</head>
+<body>
+  <h1>Data Fetcher</h1>
+  <p>This page retrieves the data and stores it for the chart.</p>
+  <script>
+    // For demonstration, we simulate getting a percentage from somewhere.
+    // Replace this with your actual fetch-and-parse code as needed.
+    var achievedPercentage = 42.5; // Example value
+
+    // Store the value in localStorage
+    localStorage.setItem('achievedPercentage', achievedPercentage);
+
+    // Optionally, display confirmation on the page.
+    document.write("Stored value: " + achievedPercentage + "% in localStorage.");
+  </script>
+  <p><em>Make sure to visit this page first so that the data is stored before loading index.html.</em></p>
+</body>
+</html>
