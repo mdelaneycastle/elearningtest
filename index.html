@@ -1,20 +1,25 @@
+
+---
+layout: null
+---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Chart Display</title>
+  <title>Static Chart from Data File</title>
   <style>
     body {
-      font-family: sans-serif;
-      text-align: center;
+      font-family: Arial, sans-serif;
       padding: 20px;
+      text-align: center;
     }
     .chart {
       width: 300px;
       height: 200px;
-      border: 2px solid #333;
-      margin: 20px auto;
+      border: 1px solid #333;
       position: relative;
+      margin: 20px auto;
     }
     .bar {
       width: 50px;
@@ -22,12 +27,11 @@
       position: absolute;
       bottom: 0;
       left: calc(50% - 25px);
-      height: 0;
-      transition: height 0.5s;
+      /* Use the value from the data file to set the bar's height */
+      height: {{ site.data.number.value }}%;
     }
-    /* This pseudo-element displays the percentage above the bar */
     .bar::after {
-      content: attr(data-percentage);
+      content: "{{ site.data.number.value }}%";
       position: absolute;
       top: -25px;
       left: 50%;
@@ -37,32 +41,11 @@
   </style>
 </head>
 <body>
-  <h1>Chart Display</h1>
+  <h1>Static Chart from Data File</h1>
   <div class="chart">
-    <div class="bar" id="chartBar" data-percentage="0%"></div>
+    <div class="bar"></div>
   </div>
-  <p id="chartText">Achieved: 0%</p>
-  
-  <script>
-    // Retrieve the stored value from localStorage
-    var storedValue = localStorage.getItem('achievedPercentage');
-
-    if (storedValue) {
-      var value = parseFloat(storedValue);
-      // Optional: Clamp the value between 0 and 100.
-      value = Math.max(0, Math.min(100, value));
-
-      // Update the bar in the chart
-      var bar = document.getElementById('chartBar');
-      bar.style.height = value + '%';
-      bar.setAttribute('data-percentage', value + '%');
-
-      // Update the text below the chart
-      document.getElementById('chartText').textContent = 'Achieved: ' + value + '%';
-    } else {
-      document.getElementById('chartText').textContent = 'No data found. Please load data.html first.';
-    }
-  </script>
-  <p><em>Note: Make sure you visit data.html before this page so the data is available.</em></p>
+  <p>The chart above represents the value: {{ site.data.number.value }}%</p>
+  <p>To update the chart, modify <code>_data/number.yml</code> and push the changes.</p>
 </body>
 </html>
