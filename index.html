@@ -1,0 +1,50 @@
+---
+layout: null
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Static Chart from Data File</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    .chart {
+      width: 300px;
+      height: 200px;
+      border: 1px solid #333;
+      position: relative;
+      margin: 20px auto;
+    }
+    .bar {
+      width: 50px;
+      background: teal;
+      position: absolute;
+      bottom: 0;
+      left: calc(50% - 25px);
+      /* Use the value from the data file to set the bar's height */
+      height: {{ site.data.number.value }}%;
+    }
+    .bar::after {
+      content: "{{ site.data.number.value }}%";
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Static Chart from Data File</h1>
+  <div class="chart">
+    <div class="bar"></div>
+  </div>
+  <p>The chart above represents the value: {{ site.data.number.value }}%</p>
+  <p>To update the chart, modify <code>_data/number.yml</code> and push the changes.</p>
+</body>
+</html>
