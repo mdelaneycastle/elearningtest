@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Chart Updated from Internal Website (JS Version)</title>
+  <title>Chart Display</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
+      font-family: sans-serif;
       text-align: center;
+      padding: 20px;
     }
     .chart {
       width: 300px;
@@ -25,7 +25,7 @@
       height: 0;
       transition: height 0.5s;
     }
-    /* Use a CSS pseudo-element to display the percentage above the bar */
+    /* This pseudo-element displays the percentage above the bar */
     .bar::after {
       content: attr(data-percentage);
       position: absolute;
@@ -37,55 +37,32 @@
   </style>
 </head>
 <body>
-  <h1>Chart Updated from Internal Website</h1>
+  <h1>Chart Display</h1>
   <div class="chart">
     <div class="bar" id="chartBar" data-percentage="0%"></div>
   </div>
   <p id="chartText">Achieved: 0%</p>
-
+  
   <script>
-    // URL of the internal page to fetch
-    const url = 'http://192.168.28.246/OPSNET2010/RptMTDGalleryTarget.aspx';
+    // Retrieve the stored value from localStorage
+    var storedValue = localStorage.getItem('achievedPercentage');
 
-    // Fetch the page content. (This requires that the internal site supports CORS.)
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok: ' + response.statusText);
-        }
-        return response.text();
-      })
-      .then(htmlText => {
-        // Parse the HTML text into a document using DOMParser.
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
-        // Locate the span element with ID "lblMTDAch"
-        const span = doc.getElementById('lblMTDAch');
-        if (span) {
-          // The span is expected to contain text like "Achieved: 34.4%"
-          const text = span.textContent;
-          const match = text.match(/Achieved:\s*([\d\.]+)%/);
-          if (match) {
-            let value = parseFloat(match[1]);
-            // Clamp the value between 0 and 100.
-            value = Math.max(0, Math.min(100, value));
-            // Update the chart's bar height and its displayed percentage.
-            const bar = document.getElementById('chartBar');
-            bar.style.height = value + '%';
-            bar.setAttribute('data-percentage', value + '%');
-            // Also update the text below the chart.
-            document.getElementById('chartText').textContent = 'Achieved: ' + value + '%';
-          } else {
-            document.getElementById('chartText').textContent = 'Could not parse percentage.';
-          }
-        } else {
-          document.getElementById('chartText').textContent = 'Element "lblMTDAch" not found.';
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching or parsing:', error);
-        document.getElementById('chartText').textContent = 'Error fetching data: ' + error;
-      });
+    if (storedValue) {
+      var value = parseFloat(storedValue);
+      // Optional: Clamp the value between 0 and 100.
+      value = Math.max(0, Math.min(100, value));
+
+      // Update the bar in the chart
+      var bar = document.getElementById('chartBar');
+      bar.style.height = value + '%';
+      bar.setAttribute('data-percentage', value + '%');
+
+      // Update the text below the chart
+      document.getElementById('chartText').textContent = 'Achieved: ' + value + '%';
+    } else {
+      document.getElementById('chartText').textContent = 'No data found. Please load data.html first.';
+    }
   </script>
+  <p><em>Note: Make sure you visit data.html before this page so the data is available.</em></p>
 </body>
 </html>
