@@ -6,46 +6,40 @@ layout: null
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>-Static Pie Chart from Data File</title>
+  <title>Static Bar Chart from Data File</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
       text-align: center;
     }
-    .chart-container {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      margin: auto;
-    }
-    .pie-chart {
-      width: 200px;
-      height: 200px;
-      transform: rotate(-90deg);
-    }
     .percentage-text {
-      font-size: 20px;
+      font-size: 48px;
       font-weight: bold;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(90deg);
+      margin-bottom: 20px;
+    }
+    .chart-container {
+      width: 80%;
+      max-width: 600px;
+      height: 40px;
+      background: #ddd;
+      margin: auto;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .bar {
+      height: 100%;
+      width: {{ site.data.number.value }}%;
+      background: teal;
+      border-radius: 20px 0 0 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Static Pie Chart from Data File</h1>
+  <h1>Static Bar Chart from Data File</h1>
+  <div class="percentage-text">{{ site.data.number.value }}%</div>
   <div class="chart-container">
-    <svg class="pie-chart" viewBox="0 0 32 32">
-      <circle r="16" cx="16" cy="16" fill="#ddd"></circle>
-      <circle r="16" cx="16" cy="16" fill="none" stroke="teal" stroke-width="4"
-        stroke-dasharray="{{ site.data.number.value * 0.32 }} 32"
-        stroke-linecap="round"></circle>
-      <text x="16" y="16" text-anchor="middle" dominant-baseline="central" class="percentage-text">
-        {{ site.data.number.value }}%
-      </text>
-    </svg>
+    <div class="bar"></div>
   </div>
   <p>The chart above represents the value: {{ site.data.number.value }}%</p>
   <p>To update the chart, modify <code>_data/number.yml</code> and push the changes.</p>
